@@ -10,13 +10,13 @@
 
 void ReadFile(FILE* input, int polinomio){
     input = fopen ("tp0_especificacao.pdf", "rb");
-    char* c;
-    char* d;
+    char c;
+    char d;
     int i;
     int mod;
-    while ((fscanf(input, "%c", c) > 0)){
+    while ((fscanf(input, "%c", &c) > 0)){
         if (polinomio == 1) {
-            fscanf(input, "%c", d);
+            fscanf(input, "%c", &d);
             strcat(c,d);
         }
         i = (int) c;
