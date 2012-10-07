@@ -9,7 +9,6 @@
 #include "crc.h"
 
 void ReadFile(FILE* input, int polinomio){
-    input = fopen ("tp0_especificacao.pdf", "rb");
     char c;
     char d;
     int i;
