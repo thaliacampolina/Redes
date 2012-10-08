@@ -16,9 +16,10 @@ void ReadFile(FILE* input, int polinomio){
     float mod;
 printf("conteudo arquivo:  ");
     while ((fscanf(input, "%c", &c) > 0)){
+        //if 16-bit polynomial, two strings are concatenated
         if (polinomio == 1) {
             fscanf(input, "%c", &d);
-            //strcat(c,d);
+            strcat(c,d);
         }
 printf("%c = ",c);
         i = (int) c;
