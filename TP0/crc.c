@@ -19,7 +19,7 @@ printf("conteudo arquivo:  ");
         //if 16-bit polynomial, two strings are concatenated
         if (polinomio == 1) {
             fscanf(input, "%c", &d);
-            strcat(c,d);
+       //     strcat(c,d);
         }
 printf("%c = ",c);
         i = (int) c;
