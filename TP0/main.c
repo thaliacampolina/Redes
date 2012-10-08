@@ -25,6 +25,9 @@ int main (int argc, char* argv[]) {
         }
     }
     opt = atoi(argv[2]);
+//DEBUG
+printf("filename = %s \n", argv[1]);
+printf("opcao = %d\n",opt);
     if (opt==1){
         polinomio = 1;
     } else if (opt ==0){

@@ -11,18 +11,23 @@
 void ReadFile(FILE* input, int polinomio){
     char c;
     char d;
+    //char* e= (char*)malloc(sizeof (char));
     int i;
     int mod;
+printf("conteudo arquivo:  ");
     while ((fscanf(input, "%c", &c) > 0)){
         if (polinomio == 1) {
             fscanf(input, "%c", &d);
-            strcat(c,d);
+            //strcat(c,d);
         }
+printf("%c = ",c);
         i = (int) c;
+printf("%i   ",i);
         mod = Mod(i,polinomio);
    //     Hexadecimal(mod);
    }
     fclose (input);
+    //free(e);
     printf("\n");
 
 }
