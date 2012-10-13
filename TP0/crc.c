@@ -9,25 +9,30 @@
 #include "crc.h"
 
 void ReadFile(FILE* input, int polinomio){
-    //char c;
-    //char d;
-    char* c= (char*)calloc(1,sizeof (char));
-    char* d= (char*)calloc(1,sizeof (char));
-    int i;
-    float mod;
+    char first;
+    char second;
+    char str[2];
+    int f, s, sixteen;
+    int mod;
 printf("conteudo arquivo:  ");
-    //while ((fscanf(input, "%c", &c) > 0)){
-    while ((fscanf(input, "%c", c) > 0)){
+    while ((fscanf(input, "%c", &first) > 0)){
         //if 16-bit polynomial, two strings are concatenated
+printf(" first =  %c %d",first, first);
         if (polinomio == 1) {
-            fscanf(input, "%c", d);
-            strcat(c,d);
+            fscanf(input, "%c", &second);
+            str[0]=first;
+	    str[1]=second;
+printf("second =  %c  dec %d   ",second, second);
+printf("string = %c%c ",str[0],str[1]);
         }
-printf("%s = ",c);
-        i = (int) c;
-printf("%i   ",i);
-        mod = Mod(i,polinomio);
-printf("mod dentro do read = %f \n", mod);
+        f = (int) first;
+        s = (int) second;
+        sixteen = first <<8;
+        sixteen = first|second;        
+printf("%i   ",f);
+	if (polinomio == 0) mod = Mod(f,polinomio);
+	else mod = Mod(sixteen, polinomio);
+printf("mod dentro do read = %i \n", mod);
    //     Hexadecimal(mod);
    }
     //free(e);
