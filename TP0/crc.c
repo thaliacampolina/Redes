@@ -14,22 +14,23 @@ void ReadFile(FILE* input, int polinomio){
     char str[2];
     int f, s, sixteen;
     int mod;
-printf("conteudo arquivo:  ");
+printf("conteudo arquivo:\n");
     while ((fscanf(input, "%c", &first) > 0)){
         //if 16-bit polynomial, two strings are concatenated
-printf(" first =  %c %d",first, first);
+printf("first =  %c %i",first, first);
+	f = (int) first;
         if (polinomio == 1) {
             fscanf(input, "%c", &second);
             str[0]=first;
 	    str[1]=second;
-printf("second =  %c  dec %d   ",second, second);
+	    s = (int) second;
+	    sixteen = f << 8;
+	    sixteen = sixteen|s;
+printf("  second =  %c %d   ",second, second);
 printf("string = %c%c ",str[0],str[1]);
         }
-        f = (int) first;
-        s = (int) second;
-        sixteen = first <<8;
-        sixteen = first|second;        
-printf("%i   ",f);
+                        
+printf("%i   ",sixteen);
 	if (polinomio == 0) mod = Mod(f,polinomio);
 	else mod = Mod(sixteen, polinomio);
 printf("mod dentro do read = %i \n", mod);
