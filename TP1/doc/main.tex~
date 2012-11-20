@@ -1,0 +1,30 @@
+\documentclass[twocolums]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+ \usepackage[brazilian]{babel}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+
+\title{REDES DE COMPUTADORES - TP2}
+\author{Thalia Campolina e Augusto Paes}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\pagebreak
+\section{Introduction}
+Ola meu nome é Thalia e eu sou muito legal.
+
+\begin{enumerate}
+ \item oi
+\item tchau
+
+\end{enumerate}
+
+
+\subsection{Bobona}
+
+\end{document}
+
