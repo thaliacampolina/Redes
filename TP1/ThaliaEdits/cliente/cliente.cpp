@@ -15,7 +15,7 @@ Observação:
 		Resultado: envia o e-mail mas na anvia o arquivo. Não ocorre nenhum aviso de erro.
 */
 
-#include <iostream>
+//#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -30,7 +30,7 @@ Observação:
 #include <limits.h>
 // Include BASE64
 #include "encode.h"
-#include <fstream>
+//#include <fstream>
 
 
 #define PORTA 9999		//Porta SMTP: 25
@@ -174,7 +174,8 @@ int main(int argc, char* argv[])
 	int passo = 1;
 	int finaliza = 0;
 	
-	cout << endl << "Enviando E-MAIL..." << endl;
+	//cout << endl << "Enviando E-MAIL..." << endl;
+	printf(" E-mail esta sendo enviado \n " );
 
 	do {//Trocas de msgs cliente-servidor
 
@@ -211,7 +212,8 @@ int main(int argc, char* argv[])
 	read(sock, char_recebe, 100); //recebe a msg do servidor em char
 	recebe = string(char_recebe);
 
-    cout << "MENSAGEM RECEBIDA DO SERVIDOR: " << recebe[0] << recebe[1] << recebe[1] << endl;
+   // cout << "MENSAGEM RECEBIDA DO SERVIDOR: " << recebe[0] << recebe[1] << recebe[1] << endl;
+    printf("\n MENSAGEM RECEBIDA DO SERVIDOR: %s %s %s \n", recebe[0], recebe[1],recebe[1]);
 
 	// Testa resposta		
 	if (char_recebe[0] == '2' || char_recebe[0] == '3')		//Servidor pronto?
@@ -222,14 +224,16 @@ int main(int argc, char* argv[])
 		send(sock,char_envia,envia.length(),0);
 		if (passo == 7) // QUIT
 			{
-			cout << "E-MAIL enviado com sucesso!" << endl;
+			//cout << "E-MAIL enviado com sucesso!" << endl;
+			printf("\n E-MAIL enviado! \n");
 			finaliza = 1;	//sai do while
 			}
 		}
 	else
 		{
 		//Erro:
-		cout << "Ocorreu um erro na comunicacao com o servidor, tente novamente!" << endl;
+		//cout << "Ocorreu um erro na comunicacao com o servidor, tente novamente!" << endl;
+		printf("\n OOps! Algum Erro Aconteceu!\n");
 		finaliza = 1;		//sai do while
 		}	
 		

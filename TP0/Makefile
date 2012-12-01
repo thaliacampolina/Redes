@@ -25,3 +25,5 @@ clean:
 run: $(MAIN)
 	./$(MAIN) -i input.txt -o output.txt -t 4
 
+
+
