@@ -13,7 +13,6 @@
 #include <sys/time.h>
 #include <limits.h>
 // Include BASE64
-#include "encode.h"
 
 int main(int argc, char* argv[]) {
 /*
@@ -40,7 +39,7 @@ int main(int argc, char* argv[]) {
 
     int sock; //inteiro que recebe o socket
 
-	string envia, recebe; //strings de envio e recebimento de msgs
+	//string envia, recebe; //strings de envio e recebimento de msgs
 
 	char char_recebe[200]; //usado como parametro no recebimento
 
@@ -53,6 +52,13 @@ int main(int argc, char* argv[]) {
 // Inicia conexão servidor
 
 	sock = socket(PF_INET, SOCK_DGRAM, 0);
+
+	read(sock, char_recebe, 100); //recebe a msg do servidor em char
+    
+    printf("MENSAGEM RECEBIDA DO SERVIDOR: %s", char_recebe);
+
+
+
 
 
 //////////////////////////////////////////////////////////////////
