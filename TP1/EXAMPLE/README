@@ -1,8 +1,0 @@
-http://www.linuxhowtos.org/C_C++/socket.htm
-
-
-Para rodar:
-
-./server 51717
-
-./client *maquina* 51717
