@@ -71,7 +71,7 @@ int tamanho_total(){
 
 int main(int argc, char *argv[]) {
      //inicia a declaracao de variaveis
-     int sockfd, newsockfd, portno, i, tamanho_nome, j, n, *tamanho;
+     int sock_connect, sock_client, portno, i, tamanho_nome, j, n, *tamanho;
      FILE *retrieve;
      socklen_t clilen;
      char buffer[10*1024], nome[50], nomedoarquivo[60], caractere, mensagem[100], msg_curta[10], buffer_retr[10*1024];
@@ -79,22 +79,22 @@ int main(int argc, char *argv[]) {
      //fim da declaração das variaveis
 
      //inicio da conexão
-     sockfd = socket(AF_INET, SOCK_STREAM, 0);
-     if (sockfd < 0) error("ERROR opening socket"); //erro na abertura do socket
+     sock_connect = socket(AF_INET, SOCK_STREAM, 0);
+     if (sock_connect < 0) error("ERROR opening socket"); //erro na abertura do socket
      bzero((char *) &serv_addr, sizeof(serv_addr));
      serv_addr.sin_family = AF_INET;
      serv_addr.sin_addr.s_addr = INADDR_ANY;
      serv_addr.sin_port = htons(PORTA);
      //fim da conexão
 
-     if (bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) error("ERROR on binding"); //erro na vinculação
-     listen(sockfd,5);
+     if (bind(sock_connect, (struct sockaddr *) &serv_addr, sizeof(serv_addr)) < 0) error("ERROR on binding"); //erro na vinculação
+     listen(sock_connect,5);
      clilen = sizeof(cli_addr);
-     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen); //aceitar a conexão
-     if (newsockfd < 0) error("ERROR on accept"); //erro na aceitação
+     sock_client = accept(sock_connect, (struct sockaddr *) &cli_addr, &clilen); //aceitar a conexão
+     if (sock_client < 0) error("ERROR on accept"); //erro na aceitação
      while(1){
 	     bzero(buffer,10*1024);
-	     n = read(newsockfd,buffer,10*1024);
+	     n = read(sock_client,buffer,10*1024);
 	     if (n < 0) error("ERROR reading from socket"); //erro na leitura do socket do cliente
 
              //comandos POP, sendo reconhecidos pela primeira letra dos mesmos (que é sempre diferente)
@@ -112,22 +112,22 @@ int main(int argc, char *argv[]) {
                      //PASS
 		     case 'P':  tamanho_emails(nome);
 		     		sprintf(mensagem, "+OK user %s has %i messages (%i bytes)\n", nome, conta_emails(nome), tamanho_total());
-		     		write(newsockfd, mensagem, strlen(mensagem));
+		     		write(sock_client, mensagem, strlen(mensagem));
 		     		break;
                      //STAT
 		     case 'S':  tamanho_emails(nome);
 		     		sprintf(mensagem, "+OK %i %i", conta_emails(nome), tamanho_total());
 		     		fflush(stdin);
-		     		write(newsockfd, mensagem, strlen(mensagem));
+		     		write(sock_client, mensagem, strlen(mensagem));
 		     		break;
                      //LIST
 		     case 'L':	tamanho_emails(nome);
 		     		sprintf(mensagem, "+OK %i messages (%i bytes)\n", conta_emails(nome), tamanho_total());
 		     		fflush(stdin);
-		     		write(newsockfd, mensagem, strlen(mensagem));
+		     		write(sock_client, mensagem, strlen(mensagem));
 		     		for (i=1; i<=(conta_emails(nome)); i++){
 		     			sprintf(msg_curta, "%i %i\n", i, vetor_tamanhos[i]);
-		     			write(newsockfd, msg_curta, strlen(msg_curta));
+		     			write(sock_client, msg_curta, strlen(msg_curta));
 		     			}
 		     		break;
                      //RETR
@@ -145,7 +145,7 @@ int main(int argc, char *argv[]) {
                                         buffer_retr[i]=fgetc(retrieve);
                                         printf("buf: %c\n", buffer_retr[i]);
                                 }
-		     		write(newsockfd,buffer_retr, strlen(buffer_retr)-1);
+		     		write(sock_client,buffer_retr, strlen(buffer_retr)-1);
 	                        bzero(buffer_retr,10*1024);
                                 break;
                      //DELETE
@@ -155,16 +155,16 @@ int main(int argc, char *argv[]) {
                                 nomedoarquivo[(strlen(nomedoarquivo))-5]=caractere; //coloca o numero do email passado como parametro no RETR
                                 remove(nomedoarquivo);
 		     		sprintf(mensagem, "+OK message %c will be deleted\n", caractere);
-		     		write(newsockfd, mensagem, strlen(mensagem));
+		     		write(sock_client, mensagem, strlen(mensagem));
                                 break;
  
                      //QUIT
-		     case 'Q':	close(newsockfd);
-		     		close(sockfd);
+		     case 'Q':	close(sock_client);
+		     		close(sock_connect);
 		     		return 0;
 		     default: 	break;
 		     }
-	     n = write(newsockfd," ",1);
+	     n = write(sock_client," ",1);
 	     if (n < 0) error("ERROR writing to socket"); //erro na escrita no socket do cliente
      }
      return 0; 

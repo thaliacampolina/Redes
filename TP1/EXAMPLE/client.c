@@ -29,25 +29,25 @@ int main(int argc, char *argv[]){
 	strcpy(username,argv[1]);
 	strcpy(password,argv[2]);
 	strcpy(host,argv[3]);
-    int sockfd, portno, n=0;
+    int sock_connect, portno, n=0;
     struct sockaddr_in serv_addr;
     struct hostent *server;
     char hostname[1024];
     hostname[1023]='\0';
     gethostname(hostname, 1023);
     char buffer[10*1024];
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd < 0) error("ERROR opening socket"); //erro na abertura do socket
+    sock_connect = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock_connect < 0) error("ERROR opening socket"); //erro na abertura do socket
     server = gethostbyname(hostname);
     bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server->h_addr, (char *)&serv_addr.sin_addr.s_addr, server->h_length);
     serv_addr.sin_port = htons(PORTA);
-    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) error("ERROR connecting"); //erro na conexão
+    if (connect(sock_connect,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) error("ERROR connecting"); //erro na conexão
     while(1){
 	    bzero(buffer,10*1024);
 	    fgets(buffer, 10*1024, stdin);
-	    n = write(sockfd,buffer,strlen(buffer));
+	    n = write(sock_connect,buffer,strlen(buffer));
 	    if (n < 0) error("ERROR writing to socket");
 	    if (strncmp(buffer, "QUIT", 4) == 0) break;
 	    else if (strncmp(buffer, "STAT", 4) == 0) printf("type enter again");
@@ -57,13 +57,13 @@ int main(int argc, char *argv[]){
 	    bzero(buffer,10*1024);
 //	    sleep(10);
 //	    while(n==0){
-	    	n = read(sockfd,buffer,10*1024);
+	    	n = read(sock_connect,buffer,10*1024);
 //	    	sleep(1);
 //	    }	    	
 	    if (n < 0) error("ERROR reading from socket");
 	    printf("%s\n",buffer);
     }
-    close(sockfd);
-    shutdown(sockfd, 2);
+    close(sock_connect);
+    shutdown(sock_connect, 2);
     return 0;
 }
