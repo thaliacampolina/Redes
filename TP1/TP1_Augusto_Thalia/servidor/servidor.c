@@ -11,6 +11,7 @@
 #include <netdb.h>
 #include <limits.h>
 
+#define PORTA 9999
 
 int main(int argc, char* argv[]) {
 
@@ -18,7 +19,12 @@ int main(int argc, char* argv[]) {
     struct sockaddr_in sock_param, cliente;
     socklen_t addrlen= sizeof(cliente);
 
-    sock = socket(PF_INET, SOCK_DGRAM, 0);
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    bzero(&sock_param, sizeof(sock_param)); //zera o resto da estrutura
+    sock_param.sin_family = PF_INET; //declaração da familia arpa net
+    sock_param.sin_port=htons(PORTA); /*25 eh a SMTP PORT */
+    sock_param.sin_addr.s_addr = INADDR_ANY; //aceita conexão de qq ip, eh setado em 0.0.0.0
 
 
     bind (sock, (struct sockaddr*)&sock_param, sizeof(sock_param)); 

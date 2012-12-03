@@ -14,6 +14,8 @@
 #include <limits.h>
 // Include BASE64
 
+#define PORTA 1234		//Porta SMTP: 25
+
 int main(int argc, char* argv[]) {
 /*
 /////////////////////////////////////////////////////////////
@@ -51,10 +53,21 @@ int main(int argc, char* argv[]) {
 ///////////////////////////////////////////////////////////////////
 // Inicia conexão servidor
 
-	sock = socket(PF_INET, SOCK_DGRAM, 0);
+	sock = socket(AF_INET, SOCK_STREAM, 0);
 
 	read(sock, char_recebe, 100); //recebe a msg do servidor em char
-    
+ 
+	bzero(&server, sizeof(server)); //zera o resto da estrutura
+
+	server.sin_family = AF_INET; //declaração da familia arpa net
+
+	server.sin_addr.s_addr = inet_aton("127.0.0.1", &dest.sin_addr);
+	server.sin_port=htons(PORTA); //25 eh a SMTP PORT //
+
+   
+
+
+
     printf("MENSAGEM RECEBIDA DO SERVIDOR: %s", char_recebe);
 
 

@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
     char hostname[1024];
     hostname[1023]='\0';
     gethostname(hostname, 1023);
-    char buffer[256];
+    char buffer[10*1024];
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd < 0) error("ERROR opening socket"); //erro na abertura do socket
     server = gethostbyname(hostname);
@@ -45,17 +45,19 @@ int main(int argc, char *argv[]){
     serv_addr.sin_port = htons(PORTA);
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) error("ERROR connecting"); //erro na conexão
     while(1){
-	    bzero(buffer,256);
-	    fgets(buffer, 255, stdin);
+	    bzero(buffer,10*1024);
+	    fgets(buffer, 10*1024, stdin);
 	    n = write(sockfd,buffer,strlen(buffer));
 	    if (n < 0) error("ERROR writing to socket");
 	    if (strncmp(buffer, "QUIT", 4) == 0) break;
 	    else if (strncmp(buffer, "STAT", 4) == 0) printf("type enter again");
 	    else if (strncmp(buffer, "LIST", 4) == 0) printf("type enter again");	    
-	    bzero(buffer,256);
+	    else if (strncmp(buffer, "RETR", 4) == 0) printf("type enter again");	    
+	    else if (strncmp(buffer, "DELE", 4) == 0) printf("type enter again");	    
+	    bzero(buffer,10*1024);
 //	    sleep(10);
 //	    while(n==0){
-	    	n = read(sockfd,buffer,255);
+	    	n = read(sockfd,buffer,10*1024);
 //	    	sleep(1);
 //	    }	    	
 	    if (n < 0) error("ERROR reading from socket");
